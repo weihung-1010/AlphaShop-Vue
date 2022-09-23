@@ -23,13 +23,14 @@
           v-show="step !== 0"
           @click.stop.prevent="onPrevStep" 
           class="btn btn-prev">
-            上一步
+          ← 上一步
           </button>
+          <button class="fake-btn"></button>
           <button
             @click.stop.prevent="onNextStep"
             class="btn btn-next text-center"
           >
-            <span>下一步</span>
+            {{ step === 2 ? '確認下單' : '下一步 →'}}
           </button>
         </div>
       </section>
@@ -47,17 +48,13 @@
 .container {
   margin-right: 50px;
 }
-.btn-prev::before {
-  content: "\27F5";
-}
 .btn-next {
   width: 125px;
   background-color: #f67599;
   color: #fff;
 }
-.btn-next::after {
-  content: "\2192";
-  padding-left: 16px;
+.fake-btn{
+  visibility: hidden;
 }
 </style>
 

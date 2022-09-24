@@ -66,7 +66,6 @@
   color: white;
 }
 .connect-line {
-  /* outline: 2px solid green; */
   width: 12%;
   position: relative;
 }

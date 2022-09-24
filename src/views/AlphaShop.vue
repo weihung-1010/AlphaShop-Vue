@@ -1,17 +1,19 @@
 <template>
   <div class="container py-5">
-    <ShoppingCartNav />
+    <Navbar />
     <h4 class="mb-4">結帳</h4>
     <main class="row">
       <!-- check-left-section -->
       <section class="col-6">
-        <ShoppingCart :step="step" />
-        <ShoppingCartMiddle
+        <ShopMain :step="step" />
+        <FormStep0
           :step="step"
           :ship-infos="shipInfos"
           :initial-ship-way-id="shipWayId"
           @change-ship-way-id="changeShipWayId"
+          :is="componentName"
         />
+
         <hr />
 
         <!-- form control -->
@@ -19,25 +21,26 @@
           id="btn-control"
           class="control-panel d-flex justify-content-between"
         >
-          <button 
-          v-show="step !== 0"
-          @click.stop.prevent="onPrevStep" 
-          class="btn btn-prev">
-          ← 上一步
+          <button
+            v-show="step !== 0"
+            @click.stop.prevent="onPrevStep"
+            class="btn btn-prev"
+          >
+            ← 上一步
           </button>
           <button class="fake-btn"></button>
           <button
             @click.stop.prevent="onNextStep"
             class="btn btn-next text-center"
           >
-            {{ step === 2 ? '確認下單' : '下一步 →'}}
+            {{ btnText }}
           </button>
         </div>
       </section>
 
       <!-- check-right-section -->
       <section class="col-5">
-        <ShoppingCartRight :ship-infos="shipInfos" :ship-way-id="shipWayId" />
+        <Checkout :ship-infos="shipInfos" :ship-way-id="shipWayId" />
         <hr />
       </section>
     </main>
@@ -45,24 +48,23 @@
 </template>
 
 <style scoped>
-.container {
-  margin-right: 50px;
-}
 .btn-next {
   width: 125px;
   background-color: #f67599;
   color: #fff;
 }
-.fake-btn{
+.fake-btn {
   visibility: hidden;
 }
 </style>
 
 <script>
-import ShoppingCart from "./../components/ShoppingCartTop";
-import ShoppingCartMiddle from "./../components/ShoppingCartMiddle";
-import ShoppingCartRight from "./../components/ShoppingCartRight";
-import ShoppingCartNav from "./../components/ShoppingCartNav";
+import ShopMain from "./../components/ShopMain";
+import Checkout from "./../components/Checkout";
+import Navbar from "./../components/Navbar";
+import FormStep0 from "./../components/FormStep0";
+import FormStep1 from "./../components/FormStep1";
+import FormStep2 from "./../components/FormStep2";
 const dummyData = {
   shipInfos: [
     {
@@ -81,10 +83,12 @@ const dummyData = {
 };
 export default {
   components: {
-    ShoppingCart,
-    ShoppingCartMiddle,
-    ShoppingCartRight,
-    ShoppingCartNav,
+    ShopMain,
+    Checkout,
+    Navbar,
+    FormStep0,
+    FormStep1,
+    FormStep2,
   },
   data() {
     return {
@@ -105,6 +109,20 @@ export default {
     changeShipWayId(shipWayId) {
       this.shipWayId = shipWayId;
       console.log("shipWayId", this.shipWayId);
+    },
+  },
+  computed: {
+    btnText() {
+      return this.step === 2 ? "確認下單" : "下一步 →";
+    },
+    componentName() {
+      if (this.step === 0) {
+        return FormStep0;
+      } else if (this.step === 1) {
+        return FormStep1;
+      } else {
+        return FormStep2;
+      }
     },
   },
 };

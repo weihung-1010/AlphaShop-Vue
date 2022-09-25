@@ -6,7 +6,7 @@
       <!-- check-left-section -->
       <section class="col-6">
         <ShopMain :step="step" />
-        <FormStep0
+        <component
           :step="step"
           :ship-infos="shipInfos"
           :initial-ship-way-id="shipWayId"
